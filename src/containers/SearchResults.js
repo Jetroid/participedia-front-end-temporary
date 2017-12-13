@@ -3,6 +3,7 @@ import api from "../utils/api";
 import queryString from "query-string";
 
 import SearchResultsView from "../components/SearchResultsView/SearchResultsView";
+import ExportCasesDialog from "../components/ExportCasesDialog";
 const DEFAULT_SORTING_METHOD = "chronological";
 const DEFAULT_CATEGORY = "All";
 export default class SearchResults extends React.Component {
@@ -17,7 +18,8 @@ export default class SearchResults extends React.Component {
       selectedCategory: this.props.selectedCategory || DEFAULT_CATEGORY,
       sortingMethod: DEFAULT_SORTING_METHOD,
       selectedViewType: "grid",
-      error: false
+      error: false,
+      showExportDialog: false
     };
   }
   componentDidMount() {
@@ -88,7 +90,10 @@ export default class SearchResults extends React.Component {
   onCategoryChange(category) {
     this._updateSearch({ selectedCategory: category });
   }
-  startDownload() {}
+  startDownload() {
+    console.log("hey");
+    this.setState({ showExportDialog: true });
+  }
 
   render() {
     if (this.state.error) {
@@ -103,6 +108,30 @@ export default class SearchResults extends React.Component {
     let onLayoutChange = this.onLayoutChange.bind(this);
     let onSortingChange = this.onSortingChange.bind(this);
     let startDownload = this.startDownload.bind(this);
+	if(this.state.showExportDialog) {
+		return(
+<div>
+			<ExportCasesDialog />
+<SearchResultsView
+        location={this.props.location}
+        selectedViewType={this.state.selectedViewType}
+        selectedCategory={this.state.selectedCategory}
+        sortingMethod={this.state.sortingMethod}
+        data={this.state.data}
+        total={this.state.total}
+        pages={this.state.pages}
+        searching={this.state.searching}
+        query={this.state.query}
+        onCategoryChange={onCategoryChange}
+        onLayoutChange={onLayoutChange}
+        startDownload={startDownload}
+        onSortingChange={onSortingChange}
+        history={this.props.history}
+
+      />
+</div>
+		);
+	}
     return (
       <SearchResultsView
         location={this.props.location}
@@ -119,6 +148,7 @@ export default class SearchResults extends React.Component {
         startDownload={startDownload}
         onSortingChange={onSortingChange}
         history={this.props.history}
+
       />
     );
   }

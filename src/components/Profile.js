@@ -37,6 +37,10 @@ class Profile extends Component {
     this.setState({ selectedViewType: layout });
   }
 
+  startDownload(layout) {
+    console.log("hey");
+  }
+
   componentWillMount() {
     this.setState({ profile: {} });
     const { userProfile, getProfile } = authService;

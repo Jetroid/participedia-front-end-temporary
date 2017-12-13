@@ -421,7 +421,8 @@ export class SearchResultsView extends React.Component {
                     alt=""
                   />
                 </div>
-                <div onClick={this.props.startDownload.bind(this)}>
+                <div onClick={() =>
+                    preventDefault(this.props.startDownload())}>
                   <DownloadButton />
                 </div>
               </div>

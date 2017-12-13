@@ -113,6 +113,32 @@ class API {
       });
   };
 
+  fetchCaseFields = function() {
+    let url = APIURL + "/case/fields";
+    return signedFetch(url, "get")
+      .then(response => response.json())
+      .then(json => json.data)
+      .catch(function(error) {
+        console.error(
+          `There has been a problem with your fetch operation: (${url}) ${error}`
+        );
+        throw error;
+      });
+  };
+  
+  fetchAllCasesJSON = function(filterArgs) {
+    let url = APIURL + "/case/all?filter=" + filterArgs;
+    return signedFetch(url, "get")
+      .then(response => response.json())
+      .then(json => json.data)
+      .catch(function(error) {
+        console.error(
+          `There has been a problem with your fetch operation: (${url}) ${error}`
+        );
+        throw error;
+      });
+  };
+
   saveNewThing = function(thingType, obj) {
     // console.log("saveNewThing", thingType, obj);
     if (
